@@ -1,3 +1,4 @@
+baseurl: /readmyreadme.io
 title: Read My README
 description: 나는 무엇을 쓸 수 있을까?
 remote_theme: pages-themes/minimal@v0.2.0
