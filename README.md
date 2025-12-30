@@ -4,5 +4,5 @@
 
 ## License
 
-- 콘텐츠: [CC BY-NC-SA 4.0](./LICENSE)
-- 코드: [Unlicense](./LICENSE)
+- Content: [CC BY-NC-SA 4.0](./LICENSE)
+- Source Code: [Unlicense](./LICENSE)
