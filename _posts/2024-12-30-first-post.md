@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 첫 번째 글
-author: a-smail-fish
+author: a-small-fish
 ---
 
 # 첫 번째 글입니다
