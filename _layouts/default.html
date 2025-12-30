@@ -23,10 +23,6 @@
 
         <p>{{ site.description | default: site.github.project_tagline }}</p>
 
-        {% if site.author %}
-        <p>by {{ site.author }}</p>
-        {% endif %}
-
         {% include navigation.html %}
 
       </header>
@@ -36,6 +32,9 @@
 
       </section>
       <footer>
+        {% if site.author %}
+        <p>by {{ site.author }}</p>
+        {% endif %}
       </footer>
     </div>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>

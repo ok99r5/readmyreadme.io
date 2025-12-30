@@ -1,6 +1,4 @@
 - name: Home
   link: /
-- name: 필기구
-  link: /pencil
 - name: Blog
   link: /blog
