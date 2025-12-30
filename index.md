@@ -5,9 +5,6 @@ title: Home
 
 # {{ site.title }}
 
-{{ site.description }}
-
-by {{ site.author }}
 
 ## 페이지
 
