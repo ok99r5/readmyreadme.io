@@ -1,52 +1,72 @@
 /**
  * 텍스트 컨텐츠 페이징 모듈
- * 800자 이상인 경우 문단 단위로 페이징
+ * 800자 기준으로 페이징 (글자 수 기반)
  */
 (function() {
-  const MIN_CHARS = 800;
+  const PAGE_SIZE = 800;
 
   document.addEventListener('DOMContentLoaded', function() {
     const content = document.getElementById('paged-content');
     if (!content) return;
 
-    // 문단 요소들 가져오기 (제목 제외)
-    const paragraphs = Array.from(content.querySelectorAll('p, ul, ol, blockquote, pre'));
-    if (paragraphs.length === 0) return;
+    // 제목(h1, h2 등) 분리
+    const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    const headingHTML = Array.from(headings).map(h => h.outerHTML).join('');
 
-    // 전체 텍스트 길이 계산
-    const totalText = paragraphs.map(p => p.textContent).join('');
-    if (totalText.length < MIN_CHARS) return;
+    // 제목 제거 후 본문 텍스트만 추출
+    headings.forEach(h => h.remove());
+    const fullText = content.innerText.trim();
 
-    // 페이지 나누기 (문단 단위, 각 페이지 185자 내외)
+    // 800자 미만이면 페이징 불필요
+    if (fullText.length < PAGE_SIZE) {
+      // 제목 복원
+      content.innerHTML = headingHTML + content.innerHTML;
+      return;
+    }
+
+    // 글자 수 기준으로 페이지 나누기 (단어 단위)
     const pages = [];
-    let currentPage = [];
-    let currentLength = 0;
+    let remaining = fullText;
 
-    paragraphs.forEach(p => {
-      const pLength = p.textContent.length;
-
-      if (currentLength + pLength > MIN_CHARS && currentPage.length > 0) {
-        pages.push(currentPage);
-        currentPage = [p];
-        currentLength = pLength;
-      } else {
-        currentPage.push(p);
-        currentLength += pLength;
+    while (remaining.length > 0) {
+      if (remaining.length <= PAGE_SIZE) {
+        pages.push(remaining);
+        break;
       }
-    });
 
-    if (currentPage.length > 0) {
-      pages.push(currentPage);
+      // 800자 지점에서 가장 가까운 공백/마침표 찾기
+      let cutPoint = PAGE_SIZE;
+
+      // 뒤로 가면서 공백이나 마침표 찾기
+      while (cutPoint > 0 && !/[\s.。!?]/.test(remaining[cutPoint])) {
+        cutPoint--;
+      }
+
+      // 못 찾으면 그냥 800자에서 자름
+      if (cutPoint === 0) {
+        cutPoint = PAGE_SIZE;
+      }
+
+      pages.push(remaining.substring(0, cutPoint + 1).trim());
+      remaining = remaining.substring(cutPoint + 1).trim();
     }
 
     // 페이지가 1개면 페이징 불필요
-    if (pages.length <= 1) return;
-
-    // 모든 문단 숨기기
-    paragraphs.forEach(p => p.style.display = 'none');
+    if (pages.length <= 1) {
+      content.innerHTML = headingHTML + content.innerHTML;
+      return;
+    }
 
     // 페이징 UI 생성
     let currentPageIndex = 0;
+
+    // 콘텐츠 영역 재구성
+    const titleDiv = document.createElement('div');
+    titleDiv.innerHTML = headingHTML;
+
+    const textDiv = document.createElement('div');
+    textDiv.id = 'paged-text';
+    textDiv.style.cssText = 'white-space: pre-wrap; line-height: 1.8;';
 
     const navContainer = document.createElement('nav');
     navContainer.className = 'paging-nav';
@@ -66,19 +86,16 @@
     navContainer.appendChild(prevBtn);
     navContainer.appendChild(pageInfo);
     navContainer.appendChild(nextBtn);
+
+    content.innerHTML = '';
+    content.appendChild(titleDiv);
+    content.appendChild(textDiv);
     content.appendChild(navContainer);
 
     function showPage(index) {
-      // 모든 문단 숨기기
-      paragraphs.forEach(p => p.style.display = 'none');
-
-      // 현재 페이지 문단만 표시
-      pages[index].forEach(p => p.style.display = '');
-
-      // 페이지 정보 업데이트
+      textDiv.textContent = pages[index];
       pageInfo.textContent = (index + 1) + ' / ' + pages.length;
 
-      // 버튼 상태 업데이트
       prevBtn.disabled = index === 0;
       nextBtn.disabled = index === pages.length - 1;
       prevBtn.style.opacity = index === 0 ? '0.5' : '1';
