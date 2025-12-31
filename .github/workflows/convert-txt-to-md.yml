@@ -1,0 +1,70 @@
+name: Convert TXT to MD
+
+on:
+  push:
+    paths:
+      - '_drafts/*.txt'
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Convert TXT to MD
+        run: |
+          # _drafts 폴더의 모든 .txt 파일 처리
+          for txt_file in _drafts/*.txt; do
+            # 파일이 존재하는지 확인
+            [ -f "$txt_file" ] || continue
+
+            # 파일명 추출 (확장자 제외)
+            filename=$(basename "$txt_file" .txt)
+
+            # 현재 년도
+            year=$(date +%Y)
+            today=$(date +%Y-%m-%d)
+
+            # 출력 폴더 생성
+            mkdir -p "_writings/$year"
+
+            # 첫 줄을 제목으로, 나머지를 본문으로
+            title=$(head -n 1 "$txt_file")
+            body=$(tail -n +2 "$txt_file")
+
+            # MD 파일 생성
+            cat > "_writings/$year/$filename.md" << EOF
+          ---
+          layout: post
+          title: $title
+          author: a-small-fish
+          date: $today
+          license: CC BY-NC-SA 4.0
+          ---
+
+          ## $title
+
+          $body
+          EOF
+
+            # 원본 txt 파일 삭제
+            rm "$txt_file"
+
+            echo "Converted: $txt_file -> _writings/$year/$filename.md"
+          done
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "텍스트 파일을 md로 자동 변환"
+            git push
+          fi
