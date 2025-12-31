@@ -66,11 +66,11 @@
 
     const textDiv = document.createElement('div');
     textDiv.id = 'paged-text';
-    textDiv.style.cssText = 'white-space: pre-wrap; line-height: 1.8;';
+    textDiv.style.cssText = 'white-space: pre-wrap; line-height: 1.8; border: none;';
 
     const navContainer = document.createElement('nav');
     navContainer.className = 'paging-nav';
-    navContainer.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 0.5rem; margin-bottom: 3rem;';
+    navContainer.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 0.3rem; margin-bottom: 4rem; border: none; padding: 0;';
 
     const prevBtn = document.createElement('button');
     prevBtn.textContent = '← 이전';
