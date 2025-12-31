@@ -1,9 +1,9 @@
 /**
  * 텍스트 컨텐츠 페이징 모듈
- * 185자 이상인 경우 문단 단위로 페이징
+ * 800자 이상인 경우 문단 단위로 페이징
  */
 (function() {
-  const MIN_CHARS = 185;
+  const MIN_CHARS = 800;
 
   document.addEventListener('DOMContentLoaded', function() {
     const content = document.getElementById('paged-content');
