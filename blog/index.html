@@ -3,12 +3,13 @@ layout: default
 title: Blog
 ---
 
+<div style="margin-top: 2rem;">
 {% for post in paginator.posts %}
   <article>
     <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-    <p>{{ post.date | date: "%Y-%m-%d" }} · {{ post.author }}</p>
   </article>
 {% endfor %}
+</div>
 
 <nav>
   {% if paginator.previous_page %}
