@@ -4,21 +4,10 @@ title: Blog
 ---
 
 <div style="margin-top: 2rem;">
-{% for post in paginator.posts %}
+{% assign sorted_writings = site.writings | sort: 'date' | reverse %}
+{% for post in sorted_writings %}
   <article>
     <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
   </article>
 {% endfor %}
 </div>
-
-<nav>
-  {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; 이전</a>
-  {% endif %}
-
-  <span>{{ paginator.page }} / {{ paginator.total_pages }}</span>
-
-  {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | relative_url }}">다음 &raquo;</a>
-  {% endif %}
-</nav>
