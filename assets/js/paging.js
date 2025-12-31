@@ -70,7 +70,7 @@
 
     const navContainer = document.createElement('nav');
     navContainer.className = 'paging-nav';
-    navContainer.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;';
+    navContainer.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 0.5rem; margin-bottom: 3rem;';
 
     const prevBtn = document.createElement('button');
     prevBtn.textContent = '← 이전';
