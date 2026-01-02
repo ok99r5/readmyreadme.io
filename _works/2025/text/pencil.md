@@ -3,6 +3,7 @@ layout: post
 title: 필기구
 author: a-small-fish
 date: 2025-12-30
+category: text
 license: CC BY-NC-SA 4.0
 ---
 
