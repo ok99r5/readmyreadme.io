@@ -1,4 +1,10 @@
 - name: Home
   link: /
 - name: Text
-  link: /text
+  link: /works/text
+- name: Lesson
+  link: /works/lesson
+- name: Principle
+  link: /works/principle
+- name: Tenet
+  link: /works/tenet
