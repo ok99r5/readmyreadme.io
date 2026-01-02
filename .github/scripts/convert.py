@@ -55,7 +55,17 @@ def convert_txt_to_md(txt_path: str, category: str) -> str | None:
     # 첫 줄 = 제목, 나머지 = 본문
     lines = content.split('\n')
     title = lines[0].strip()
-    body = '\n'.join(lines[1:]).strip()
+
+    # 본문의 각 줄 끝에 이중 공백 추가 (Markdown 줄바꿈)
+    # 빈 줄은 단락 구분용으로 그대로 유지
+    body_lines = []
+    for line in lines[1:]:
+        stripped = line.rstrip()
+        if stripped:
+            body_lines.append(stripped + '  ')  # 이중 공백 추가
+        else:
+            body_lines.append('')  # 빈 줄 유지
+    body = '\n'.join(body_lines).strip()
 
     # 제목이 비어있으면 파일명 사용
     if not title:
