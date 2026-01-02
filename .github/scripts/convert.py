@@ -70,13 +70,16 @@ license: CC BY-NC-SA 4.0
 {body}
 '''
 
+    # 이미 변환된 파일이 있으면 건너뛰기
+    if os.path.exists(output_path):
+        print(f"Skip (already exists): {output_path}")
+        return None
+
     # 파일 쓰기
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(md_content)
 
-    # 원본 삭제
-    os.remove(txt_path)
-
+    # 원본 유지 (삭제하지 않음)
     return output_path
 
 
