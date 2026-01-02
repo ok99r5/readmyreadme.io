@@ -7,7 +7,7 @@ plugins:
 
 # Collections
 collections:
-  writings:
+  works:
     output: true
     permalink: /:collection/:path/
 

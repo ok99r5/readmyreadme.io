@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-_drafts/{category}/*.txt 파일을 _writings/{year}/{category}/*.md 파일로 변환
+_drafts/{category}/*.txt 파일을 _works/{year}/{category}/*.md 파일로 변환
 
 카테고리: text, lesson, principle, tenet
 - 첫 줄: 제목
@@ -49,9 +49,9 @@ def convert_txt_to_md(txt_path: str, category: str) -> str | None:
     today = datetime.now().strftime('%Y-%m-%d')
     year = datetime.now().strftime('%Y')
 
-    # 출력 경로: _writings/{year}/{category}/
+    # 출력 경로: _works/{year}/{category}/
     filename = os.path.splitext(os.path.basename(txt_path))[0]
-    output_dir = f"_writings/{year}/{category}"
+    output_dir = f"_works/{year}/{category}"
     os.makedirs(output_dir, exist_ok=True)
     output_path = f"{output_dir}/{filename}.md"
 

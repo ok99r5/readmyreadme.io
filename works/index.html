@@ -4,8 +4,8 @@ title: Works
 ---
 
 <div style="margin-top: 2rem;">
-{% assign sorted_writings = site.writings | sort: 'date' | reverse %}
-{% for post in sorted_writings %}
+{% assign sorted_works = site.works | sort: 'date' | reverse %}
+{% for post in sorted_works %}
   <article>
     <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
   </article>
